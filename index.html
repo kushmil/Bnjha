@@ -1,581 +1,938 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="light">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>BN Jha College, Deoghar 🎒</title>
-  <!-- Apple aesthetic – soft, pure, no neon, no glow -->
-  <!-- PWA manifest (generated inline) -->
-  <link rel="manifest" id="dynamic-manifest">
-  <!-- Apple touch icon (simple emoji) -->
-  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='80' font-size='80' text-anchor='middle' fill='%23333'%3E🎓%3C/text%3E%3C/svg%3E">
-  <!-- Favicon -->
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='80' font-size='80' text-anchor='middle' fill='%23333'%3E🏫%3C/text%3E%3C/svg%3E" type="image/svg+xml">
-  <!-- Font Awesome (clean icons) & SweetAlert2 -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <style>
-    /* ----- PURE APPLE AESTHETIC – SOFT, MINIMAL, RESPONSIVE ----- */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>BN Jha Memorial Inter College</title>
 
-    /* Light theme (default) */
-    body {
-      background-color: #ffffff;
-      color: #1d1d1f;
-      line-height: 1.5;
-      -webkit-font-smoothing: antialiased;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+    <!-- Fonts: Kavoon (Brand) & Inter (UI) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kavoon&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    /* Dark theme */
-    body.dark-theme {
-      background-color: #000000;
-      color: #f5f5f7;
-    }
+    <!-- CDNs -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
 
-    /* Splash screen */
-    #splash {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: #ffffff;
-      z-index: 1000;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      transition: opacity 0.5s ease;
-    }
-    body.dark-theme #splash {
-      background-color: #000000;
-    }
-    .splash-title {
-      font-size: 2.5rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      text-align: center;
-      padding: 0 20px;
-      color: #1d1d1f;
-    }
-    body.dark-theme .splash-title {
-      color: #f5f5f7;
-    }
-    .dots {
-      margin-top: 30px;
-      display: flex;
-      gap: 12px;
-    }
-    .dot {
-      width: 16px;
-      height: 16px;
-      background-color: #0071e3; /* Apple blue */
-      border-radius: 50%;
-      animation: dance 1.2s infinite ease-in-out;
-    }
-    .dot:nth-child(2) { animation-delay: 0.2s; }
-    .dot:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes dance {
-      0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
-      40% { transform: scale(1); opacity: 1; }
-    }
+    <!-- Tailwind Config for iOS Theme -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans:['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+                        brand:['Kavoon', 'serif'],
+                    },
+                    colors: {
+                        ios: {
+                            bgLight: '#F2F2F7', cardLight: '#FFFFFF', textLight: '#000000', subLight: '#8E8E93', blueLight: '#007AFF', separatorLight: '#C6C6C8',
+                            bgDark: '#000000', cardDark: '#1C1C1E', textDark: '#FFFFFF', subDark: '#8E8E93', blueDark: '#0A84FF', separatorDark: '#38383A',
+                            green: '#34C759', orange: '#FF9500', red: '#FF3B30', purple: '#AF52DE'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 
-    /* Main app – hidden until splash disappears */
-    #app {
-      display: none;
-      flex: 1;
-      flex-direction: column;
-    }
+    <style>
+        /* Base iOS Reset */
+        * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+        body {
+            background-color: #F2F2F7; color: #000000; margin: 0;
+            overflow-x: hidden; font-size: 17px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            -webkit-font-smoothing: antialiased; min-height: 100vh;
+        }
+        .dark body { background-color: #000000; color: #FFFFFF; }
 
-    /* Header with hamburger */
-    .header {
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      background-color: rgba(255, 255, 255, 0.8);
-      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      padding: 12px 0;
-    }
-    body.dark-theme .header {
-      background-color: rgba(0, 0, 0, 0.8);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-    }
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-    .header .container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .college-title {
-      font-size: 1.6rem;
-      font-weight: 500;
-      letter-spacing: -0.02em;
-      color: inherit;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .college-title span {
-      font-size: 2rem;
-    }
-    .hamburger-btn {
-      background: none;
-      border: none;
-      font-size: 2rem;
-      color: inherit;
-      cursor: pointer;
-      padding: 8px 12px;
-      border-radius: 24px;
-      transition: background 0.1s;
-    }
-    .hamburger-btn:hover {
-      background-color: rgba(0, 0, 0, 0.05);
-    }
-    body.dark-theme .hamburger-btn:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
+        /* SPA View Management */
+        .spa-view { display: none; opacity: 0; }
+        .spa-view.active { display: block; opacity: 1; }
 
-    /* Hamburger menu overlay */
-    .menu-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0,0,0,0.2);
-      backdrop-filter: blur(8px);
-      z-index: 200;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s;
-    }
-    .menu-overlay.active {
-      opacity: 1;
-      pointer-events: all;
-    }
-    .menu-drawer {
-      position: fixed;
-      top: 0;
-      right: -340px;
-      width: 300px;
-      height: 100%;
-      background-color: #ffffff;
-      color: #1d1d1f;
-      padding: 32px 24px;
-      box-shadow: -4px 0 20px rgba(0,0,0,0.05);
-      transition: right 0.3s ease;
-      display: flex;
-      flex-direction: column;
-      border-left: 1px solid rgba(0,0,0,0.1);
-    }
-    body.dark-theme .menu-drawer {
-      background-color: #1c1c1e;
-      color: #f5f5f7;
-      border-left: 1px solid rgba(255,255,255,0.15);
-    }
-    .menu-overlay.active .menu-drawer {
-      right: 0;
-    }
-    .menu-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 32px;
-      font-size: 1.5rem;
-      font-weight: 500;
-    }
-    .close-menu {
-      background: none;
-      border: none;
-      font-size: 2rem;
-      color: inherit;
-      cursor: pointer;
-    }
+        /* iOS Nav Bar Blur */
+        .ios-nav {
+            background: rgba(242, 242, 247, 0.85);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 0.5px solid #C6C6C8;
+        }
+        .dark .ios-nav { background: rgba(28, 28, 30, 0.85); border-bottom: 0.5px solid #38383A; }
 
-    /* Theme toggle inside menu – sun / moon */
-    .theme-toggle {
-      display: flex;
-      gap: 16px;
-      background: #f2f2f2;
-      padding: 6px;
-      border-radius: 40px;
-      width: fit-content;
-      margin: 20px 0 30px;
-    }
-    body.dark-theme .theme-toggle {
-      background: #2c2c2e;
-    }
-    .theme-btn {
-      border: none;
-      background: transparent;
-      padding: 10px 24px;
-      border-radius: 40px;
-      font-size: 1rem;
-      font-weight: 500;
-      color: #6e6e73;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .theme-btn.active {
-      background: #ffffff;
-      color: #1d1d1f;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    body.dark-theme .theme-btn.active {
-      background: #3a3a3c;
-      color: #ffffff;
-      box-shadow: 0 2px 8px rgba(255,255,255,0.1);
-    }
+        /* Components */
+        .ios-card { background-color: #FFFFFF; border-radius: 14px; transition: background-color 0.3s ease; }
+        .dark .ios-card { background-color: #1C1C1E; }
+        
+        .ios-list-item:not(:last-child) .list-content { border-bottom: 0.5px solid #C6C6C8; }
+        .dark .ios-list-item:not(:last-child) .list-content { border-bottom: 0.5px solid #38383A; }
 
-    /* Menu links */
-    .menu-nav {
-      list-style: none;
-      flex: 1;
-    }
-    .menu-nav li {
-      margin-bottom: 20px;
-    }
-    .menu-nav a {
-      text-decoration: none;
-      font-size: 1.3rem;
-      font-weight: 400;
-      color: inherit;
-      display: block;
-      padding: 8px 12px;
-      border-radius: 16px;
-      transition: background 0.1s;
-    }
-    .menu-nav a:hover {
-      background-color: rgba(0,0,0,0.05);
-    }
-    body.dark-theme .menu-nav a:hover {
-      background-color: rgba(255,255,255,0.1);
-    }
-    .menu-nav i {
-      width: 32px;
-    }
+        /* Buttons & Inputs */
+        .btn-3d {
+            background-color: #007AFF; color: #FFFFFF; border-radius: 12px;
+            font-weight: 600; padding: 10px 18px;
+            display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+            box-shadow: 0 4px 0 #0056b3, 0 6px 10px rgba(0,0,0,0.15);
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+            border: none; cursor: pointer; text-decoration: none;
+        }
+        .btn-3d:active { transform: translateY(4px); box-shadow: 0 0px 0 #0056b3, 0 2px 4px rgba(0,0,0,0.15); }
+        .dark .btn-3d { background-color: #0A84FF; box-shadow: 0 4px 0 #004085, 0 6px 10px rgba(0,0,0,0.4); }
+        .dark .btn-3d:active { box-shadow: 0 0px 0 #004085, 0 2px 4px rgba(0,0,0,0.4); }
 
-    /* Main content */
-    main {
-      flex: 1;
-      padding: 40px 0 60px;
-    }
+        .btn-3d-submit { width: 100%; padding: 14px 24px; font-size: 17px; border-radius: 14px; }
 
-    /* Principal section */
-    .principal-img {
-      display: block;
-      max-width: 260px;
-      width: 100%;
-      margin: 0 auto 24px;
-      border-radius: 36px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-    .principal-img:hover {
-      transform: scale(1.02);
-    }
-    h2 {
-      font-size: 2rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      margin: 40px 0 16px;
-    }
-    .greeting {
-      font-size: 1.2rem;
-      color: #3a3a3c;
-      margin-bottom: 30px;
-      line-height: 1.6;
-    }
-    body.dark-theme .greeting {
-      color: #aeaeae;
-    }
-    .description-text {
-      font-size: 1.1rem;
-      color: #3a3a3c;
-      margin-bottom: 30px;
-      line-height: 1.7;
-    }
-    body.dark-theme .description-text {
-      color: #aeaeae;
-    }
+        .ios-input, .ios-select, .ios-textarea {
+            width: 100%; padding: 16px; border-radius: 14px; font-size: 17px;
+            background-color: #FFFFFF; border: 1px solid #C6C6C8;
+            color: #000; outline: none; transition: all 0.2s;
+            appearance: none;
+        }
+        .ios-input:focus, .ios-select:focus, .ios-textarea:focus { border-color: #007AFF; box-shadow: 0 0 0 3px rgba(0,122,255,0.2); }
+        .dark .ios-input, .dark .ios-select, .dark .ios-textarea { background-color: #1C1C1E; border: 1px solid #38383A; color: #FFF; }
+        .dark .ios-input:focus, .dark .ios-select:focus, .dark .ios-textarea:focus { border-color: #0A84FF; box-shadow: 0 0 0 3px rgba(10,132,255,0.2); }
 
-    /* Social links */
-    .social-links {
-      display: flex;
-      gap: 32px;
-      justify-content: center;
-      margin: 48px 0 20px;
-    }
-    .social-icon {
-      font-size: 2.5rem;
-      color: #1d1d1f;
-      transition: opacity 0.1s;
-    }
-    body.dark-theme .social-icon {
-      color: #f5f5f7;
-    }
-    .social-icon:hover {
-      opacity: 0.7;
-    }
+        /* Splash Screen */
+        #splash-screen {
+            position: fixed; inset: 0; z-index: 9999;
+            display: flex; align-items: center; justify-content: center;
+            background-color: #F2F2F7; flex-direction: column; gap: 10px;
+        }
+        .dark #splash-screen { background-color: #000000; }
+        .letter-b { display: inline-block; }
+        .letter-rest { display: inline-flex; overflow: hidden; width: 0; opacity: 0; white-space: nowrap; }
 
-    footer {
-      border-top: 1px solid rgba(0,0,0,0.1);
-      padding: 24px 0;
-      font-size: 0.9rem;
-      color: #6e6e73;
-      text-align: center;
-    }
-    body.dark-theme footer {
-      border-top: 1px solid rgba(255,255,255,0.15);
-      color: #98989d;
-    }
-  </style>
+        /* General Utilities */
+        .yt-thumbnail { aspect-ratio: 16 / 9; object-fit: cover; }
+        
+        /* Notice Marquee Animation */
+        .marquee-content {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 20s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        
+        /* Back Button Style */
+        .back-link {
+            display: inline-flex; align-items: center; gap: 4px;
+            color: #007AFF; font-weight: 500; font-size: 16px;
+            margin-bottom: 20px; transition: opacity 0.2s;
+            text-decoration: none;
+        }
+        .back-link:active { opacity: 0.5; }
+        .dark .back-link { color: #0A84FF; }
+    </style>
 </head>
-<body>
-  <!-- SPLASH SCREEN -->
-  <div id="splash">
-    <div class="splash-title">BN Jha College, Deoghar 🎒</div>
-    <div class="dots">
-      <div class="dot"></div>
-      <div class="dot"></div>
-      <div class="dot"></div>
-    </div>
-  </div>
+<body class="bg-ios-bgLight dark:bg-ios-bgDark">
 
-  <!-- MAIN APP -->
-  <div id="app">
-    <header class="header">
-      <div class="container">
-        <a href="index.html" class="college-title">
-          <span>🎓</span> BN Jha College
-        </a>
-        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu">
-          <i class="fas fa-bars"></i>
-        </button>
-      </div>
+    <!-- SPLASH SCREEN -->
+    <div id="splash-screen">
+        <h1 class="font-brand text-4xl md:text-6xl text-ios-textLight dark:text-ios-textDark flex items-center justify-center">
+            <span id="splash-b" class="letter-b text-ios-blueLight dark:text-ios-blueDark">BN Jha</span>
+            <span id="splash-rest" class="letter-rest ml-2">College</span>
+        </h1>
+        <p class="text-ios-subLight dark:text-ios-subDark font-medium text-sm tracking-widest uppercase mt-2">Loading Campus...</p>
+    </div>
+
+    <!-- DYNAMIC TOP NAV -->
+    <header class="ios-nav sticky top-0 z-40 w-full">
+        <div class="max-w-3xl mx-auto px-4 py-3 flex justify-between items-center h-[65px]">
+            <div class="w-1/4 flex justify-start items-center">
+                <i data-lucide="graduation-cap" class="w-7 h-7 text-ios-blueLight dark:text-ios-blueDark"></i>
+            </div>
+            <div class="w-2/4 flex justify-center items-center whitespace-nowrap">
+                <span id="nav-title" class="font-brand text-xl text-ios-textLight dark:text-ios-textDark tracking-tight transition-opacity">BN Jha College</span>
+            </div>
+            <div class="w-1/4 flex justify-end items-center gap-3">
+                <button id="theme-toggle" class="p-2 rounded-full bg-ios-separatorLight/30 dark:bg-ios-separatorDark/50 text-ios-textLight dark:text-ios-textDark transition-transform active:scale-90 outline-none">
+                    <i data-lucide="sun" id="theme-icon-sun" class="w-4 h-4 hidden dark:block"></i>
+                    <i data-lucide="moon" id="theme-icon-moon" class="w-4 h-4 block dark:hidden"></i>
+                </button>
+                <a href="#apply" class="btn-3d text-[13px]">
+                    <i data-lucide="send" class="w-4 h-4"></i> Apply
+                </a>
+            </div>
+        </div>
     </header>
 
-    <!-- Hamburger menu overlay -->
-    <div class="menu-overlay" id="menuOverlay">
-      <div class="menu-drawer">
-        <div class="menu-header">
-          <span>Menu</span>
-          <button class="close-menu" id="closeMenuBtn"><i class="fas fa-times"></i></button>
+    <!-- SPA ROUTER CONTAINER -->
+    <main id="app-router" class="max-w-3xl mx-auto w-full px-4 pt-6 pb-12 min-h-screen">
+
+        <!-- ==================== VIEW: HOME ==================== -->
+        <div id="view-home" class="spa-view active" data-title="BN Jha College">
+            
+            <!-- Hero Title -->
+            <section class="ui-elem opacity-0 mb-6 text-center">
+                <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-ios-textLight dark:text-ios-textDark leading-tight mb-2">
+                    BN Jha Memorial <br> Inter College
+                </h1>
+                <p class="text-[15px] text-ios-subLight dark:text-ios-subDark font-medium flex justify-center items-center gap-1">
+                    <i data-lucide="map-pin" class="w-4 h-4"></i> Deoghar, Jharkhand
+                </p>
+            </section>
+
+            <!-- Notice Board -->
+            <section class="ui-elem opacity-0 mb-8">
+                <div class="ios-card flex items-center overflow-hidden border border-ios-separatorLight/40 dark:border-ios-separatorDark/40 shadow-sm p-1 pr-3">
+                    <div class="bg-ios-red/10 text-ios-red px-3 py-2 rounded-xl flex items-center gap-2 font-bold text-sm shrink-0 z-10 relative">
+                        <i data-lucide="bell-ring" class="w-4 h-4 animate-bounce"></i> Notice
+                    </div>
+                    <div class="flex-1 overflow-hidden relative ml-2">
+                        <div class="marquee-content text-[15px] font-medium text-ios-textLight dark:text-ios-textDark">
+                            Welcome to Session 2026-28 | Admissions are now OPEN for I.Sc, I.A, I.Com | Click on 'Apply' to register | Scholarship details updated | Practical Exam Dates Announced soon
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Key Stats -->
+            <section class="ui-elem opacity-0 mb-8 grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div class="ios-card p-4 text-center border border-ios-separatorLight/30 dark:border-ios-separatorDark/30 shadow-sm">
+                    <h3 class="text-2xl font-bold text-ios-blueLight dark:text-ios-blueDark">25+</h3>
+                    <p class="text-[12px] font-semibold text-ios-subLight dark:text-ios-subDark uppercase tracking-wide mt-1">Years Legacy</p>
+                </div>
+                <div class="ios-card p-4 text-center border border-ios-separatorLight/30 dark:border-ios-separatorDark/30 shadow-sm">
+                    <h3 class="text-2xl font-bold text-ios-green">50+</h3>
+                    <p class="text-[12px] font-semibold text-ios-subLight dark:text-ios-subDark uppercase tracking-wide mt-1">Expert Faculty</p>
+                </div>
+                <div class="ios-card p-4 text-center border border-ios-separatorLight/30 dark:border-ios-separatorDark/30 shadow-sm">
+                    <h3 class="text-2xl font-bold text-ios-purple">98%</h3>
+                    <p class="text-[12px] font-semibold text-ios-subLight dark:text-ios-subDark uppercase tracking-wide mt-1">Pass Rate</p>
+                </div>
+                <div class="ios-card p-4 text-center border border-ios-separatorLight/30 dark:border-ios-separatorDark/30 shadow-sm">
+                    <h3 class="text-2xl font-bold text-ios-orange">5k+</h3>
+                    <p class="text-[12px] font-semibold text-ios-subLight dark:text-ios-subDark uppercase tracking-wide mt-1">Alumni</p>
+                </div>
+            </section>
+
+            <!-- EXTERNAL LINK: FIND PEN NO. -->
+            <section class="ui-elem opacity-0 mb-8">
+                <a href="https://kushmil.github.io/Y/" target="_blank" class="block ios-card p-4 border border-ios-blueLight/30 dark:border-ios-blueDark/30 shadow-sm bg-gradient-to-r from-ios-blueLight/10 to-ios-purple/10 dark:from-ios-blueDark/20 dark:to-ios-purple/20 active:scale-[0.98] transition-transform">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-white dark:bg-[#1C1C1E] rounded-full flex items-center justify-center text-ios-blueLight dark:text-ios-blueDark shadow-sm">
+                                <i data-lucide="search" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-ios-textLight dark:text-ios-textDark">Find PEN No.</h3>
+                                <p class="text-[13px] text-ios-subLight dark:text-ios-subDark">Check Permanent Enrollment Number</p>
+                            </div>
+                        </div>
+                        <i data-lucide="external-link" class="w-5 h-5 text-ios-blueLight dark:text-ios-blueDark"></i>
+                    </div>
+                </a>
+            </section>
+
+            <!-- Principal Message Section -->
+            <section class="ui-elem opacity-0 mb-8">
+                <div class="ios-card overflow-hidden shadow-md border border-ios-separatorLight/40 dark:border-ios-separatorDark/40">
+                    <div class="relative w-full yt-thumbnail bg-ios-separatorLight/30 dark:bg-ios-separatorDark/30 flex items-center justify-center">
+                        <img src="pri.jpg" alt="Principal Manoj Kumar Mathhpati" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1200&auto=format&fit=crop';">
+                        <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent p-4 pt-12">
+                            <h2 class="text-white text-xl font-bold tracking-wide">Manoj Kumar Mathhpati</h2>
+                            <p class="text-white/80 text-sm font-medium">Principal, BN Jha College</p>
+                        </div>
+                    </div>
+                    
+                    <div class="p-5">
+                        <div class="flex gap-3 items-start mb-2">
+                            <i data-lucide="quote" class="w-6 h-6 text-ios-blueLight dark:text-ios-blueDark shrink-0 opacity-50 mt-1"></i>
+                            <p class="text-[15px] leading-relaxed text-ios-textLight dark:text-ios-textDark font-medium text-justify">
+                                प्रिय छात्रों, बी. एन. झा मेमोरियल इंटर कॉलेज, देवघर में आपका हार्दिक स्वागत है। हमारा उद्देश्य आपको उत्कृष्ट शिक्षा प्रदान करना और आपके उज्ज्वल भविष्य का निर्माण करना है। ज्ञान, अनुशासन और उच्च संस्कार ही सफलता की कुंजी है। हम आपको आधुनिक शिक्षा के साथ-साथ नैतिक मूल्यों से भी जोड़ने का प्रयास करते हैं।
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Explore Links (Grid) -->
+            <section class="ui-elem opacity-0 mb-8">
+                <h3 class="text-[14px] uppercase font-bold text-ios-subLight dark:text-ios-subDark mb-3 ml-2 tracking-widest">Explore Campus</h3>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    <a href="#about" class="ios-card p-4 flex flex-col items-center justify-center text-center border border-ios-separatorLight/30 shadow-sm active:scale-95 transition-transform">
+                        <div class="w-12 h-12 bg-ios-blueLight/10 text-ios-blueLight rounded-full flex items-center justify-center mb-2">
+                            <i data-lucide="info" class="w-6 h-6"></i>
+                        </div>
+                        <span class="text-[14px] font-bold text-ios-textLight dark:text-ios-textDark">About Us</span>
+                    </a>
+                    <a href="#facilities" class="ios-card p-4 flex flex-col items-center justify-center text-center border border-ios-separatorLight/30 shadow-sm active:scale-95 transition-transform">
+                        <div class="w-12 h-12 bg-ios-green/10 text-ios-green rounded-full flex items-center justify-center mb-2">
+                            <i data-lucide="building-2" class="w-6 h-6"></i>
+                        </div>
+                        <span class="text-[14px] font-bold text-ios-textLight dark:text-ios-textDark">Facilities</span>
+                    </a>
+                    <a href="#gallery" class="ios-card p-4 flex flex-col items-center justify-center text-center border border-ios-separatorLight/30 shadow-sm active:scale-95 transition-transform">
+                        <div class="w-12 h-12 bg-ios-purple/10 text-ios-purple rounded-full flex items-center justify-center mb-2">
+                            <i data-lucide="image" class="w-6 h-6"></i>
+                        </div>
+                        <span class="text-[14px] font-bold text-ios-textLight dark:text-ios-textDark">Gallery</span>
+                    </a>
+                    <a href="#contact" class="ios-card p-4 flex flex-col items-center justify-center text-center border border-ios-separatorLight/30 shadow-sm active:scale-95 transition-transform">
+                        <div class="w-12 h-12 bg-ios-orange/10 text-ios-orange rounded-full flex items-center justify-center mb-2">
+                            <i data-lucide="phone-call" class="w-6 h-6"></i>
+                        </div>
+                        <span class="text-[14px] font-bold text-ios-textLight dark:text-ios-textDark">Contact</span>
+                    </a>
+                    <a href="#events" class="ios-card p-4 flex flex-col items-center justify-center text-center border border-ios-separatorLight/30 shadow-sm active:scale-95 transition-transform">
+                        <div class="w-12 h-12 bg-ios-red/10 text-ios-red rounded-full flex items-center justify-center mb-2">
+                            <i data-lucide="calendar-days" class="w-6 h-6"></i>
+                        </div>
+                        <span class="text-[14px] font-bold text-ios-textLight dark:text-ios-textDark">Events</span>
+                    </a>
+                    <a href="#developer" class="ios-card p-4 flex flex-col items-center justify-center text-center border border-ios-separatorLight/30 shadow-sm active:scale-95 transition-transform">
+                        <div class="w-12 h-12 bg-[#333]/10 dark:bg-white/20 text-[#333] dark:text-white rounded-full flex items-center justify-center mb-2">
+                            <i data-lucide="code-2" class="w-6 h-6"></i>
+                        </div>
+                        <span class="text-[14px] font-bold text-ios-textLight dark:text-ios-textDark">Developer</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Streams/Programs Section -->
+            <section class="ui-elem opacity-0 mb-8">
+                <h3 class="text-[14px] uppercase font-bold text-ios-subLight dark:text-ios-subDark mb-3 ml-2 tracking-widest">Academic Programs</h3>
+                
+                <div class="flex flex-col gap-4">
+                    <!-- Science Card -->
+                    <a href="#science" class="block ios-card p-4 flex items-center border border-ios-separatorLight/30 dark:border-ios-separatorDark/30 shadow-sm active:scale-[0.98] transition-transform">
+                        <div class="w-14 h-14 rounded-2xl bg-ios-blueLight/10 dark:bg-ios-blueDark/20 text-ios-blueLight dark:text-ios-blueDark flex justify-center items-center shrink-0">
+                            <i data-lucide="flask-conical" class="w-7 h-7"></i>
+                        </div>
+                        <div class="ml-4 flex-1">
+                            <h4 class="text-lg font-bold text-ios-textLight dark:text-ios-textDark">Science (I.Sc)</h4>
+                            <p class="text-[13px] text-ios-subLight dark:text-ios-subDark mt-0.5">Physics, Chemistry, Biology, Math</p>
+                        </div>
+                        <i data-lucide="chevron-right" class="text-ios-subLight dark:text-ios-subDark w-5 h-5"></i>
+                    </a>
+
+                    <!-- Arts Card -->
+                    <a href="#arts" class="block ios-card p-4 flex items-center border border-ios-separatorLight/30 dark:border-ios-separatorDark/30 shadow-sm active:scale-[0.98] transition-transform">
+                        <div class="w-14 h-14 rounded-2xl bg-ios-purple/10 dark:bg-ios-purple/20 text-ios-purple flex justify-center items-center shrink-0">
+                            <i data-lucide="palette" class="w-7 h-7"></i>
+                        </div>
+                        <div class="ml-4 flex-1">
+                            <h4 class="text-lg font-bold text-ios-textLight dark:text-ios-textDark">Arts (I.A)</h4>
+                            <p class="text-[13px] text-ios-subLight dark:text-ios-subDark mt-0.5">History, Geography, Pol. Science</p>
+                        </div>
+                        <i data-lucide="chevron-right" class="text-ios-subLight dark:text-ios-subDark w-5 h-5"></i>
+                    </a>
+
+                    <!-- Commerce Card -->
+                    <a href="#commerce" class="block ios-card p-4 flex items-center border border-ios-separatorLight/30 dark:border-ios-separatorDark/30 shadow-sm active:scale-[0.98] transition-transform">
+                        <div class="w-14 h-14 rounded-2xl bg-ios-orange/10 dark:bg-ios-orange/20 text-ios-orange flex justify-center items-center shrink-0">
+                            <i data-lucide="briefcase" class="w-7 h-7"></i>
+                        </div>
+                        <div class="ml-4 flex-1">
+                            <h4 class="text-lg font-bold text-ios-textLight dark:text-ios-textDark">Commerce (I.Com)</h4>
+                            <p class="text-[13px] text-ios-subLight dark:text-ios-subDark mt-0.5">Accounts, Business Studies, Eco</p>
+                        </div>
+                        <i data-lucide="chevron-right" class="text-ios-subLight dark:text-ios-subDark w-5 h-5"></i>
+                    </a>
+                </div>
+            </section>
+            
+            <div class="text-center mt-12 mb-4">
+                <p class="text-[13px] font-medium text-ios-subLight dark:text-ios-subDark mb-1">© 2026 BN Jha Memorial Inter College</p>
+                <p class="text-[12px] text-ios-subLight dark:text-ios-subDark">
+                    Designed & Developed by <a href="#developer" class="text-ios-blueLight dark:text-ios-blueDark font-semibold">Anshu Rajhans</a>
+                </p>
+            </div>
         </div>
 
-        <!-- Theme toggle (sun / moon) inside menu -->
-        <div class="theme-toggle">
-          <button class="theme-btn active" id="themeLight"><i class="fas fa-sun"></i> Light</button>
-          <button class="theme-btn" id="themeDark"><i class="fas fa-moon"></i> Dark</button>
+        <!-- ==================== VIEW: ABOUT US ==================== -->
+        <div id="view-about" class="spa-view" data-title="About Us">
+            <a href="#home" class="back-link"><i data-lucide="chevron-left" class="w-5 h-5"></i> Back</a>
+
+            <div class="ios-card p-6 border border-ios-separatorLight/30 shadow-sm mb-6">
+                <div class="w-16 h-16 bg-ios-blueLight/10 text-ios-blueLight dark:bg-ios-blueDark/20 dark:text-ios-blueDark rounded-full flex items-center justify-center mb-4 mx-auto">
+                    <i data-lucide="landmark" class="w-8 h-8"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-center text-ios-textLight dark:text-ios-textDark mb-4">Our History</h2>
+                <p class="text-[15px] leading-relaxed text-ios-subLight dark:text-ios-subDark mb-4 text-justify">
+                    Established in the heart of Deoghar, <strong>BN Jha Memorial Inter College</strong> has been a beacon of knowledge and discipline for decades. Named in memory of the visionary Late B.N. Jha, our institution aims to uplift the educational standards of the region.
+                </p>
+                <p class="text-[15px] leading-relaxed text-ios-subLight dark:text-ios-subDark text-justify">
+                    We offer higher secondary education in Science, Arts, and Commerce, guided by a team of dedicated faculties who believe in holistic development and shaping the leaders of tomorrow.
+                </p>
+            </div>
+
+            <h3 class="text-[14px] uppercase font-bold text-ios-subLight dark:text-ios-subDark mb-3 ml-2 tracking-widest">Core Values</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div class="ios-card p-5 border border-ios-separatorLight/30 shadow-sm">
+                    <h3 class="text-lg font-bold text-ios-textLight dark:text-ios-textDark flex items-center gap-2 mb-2">
+                        <i data-lucide="target" class="text-ios-orange"></i> Vision
+                    </h3>
+                    <p class="text-[14px] text-ios-subLight dark:text-ios-subDark">To be an institution of excellence, nurturing intellect, fostering values, and empowering students to contribute to society.</p>
+                </div>
+                <div class="ios-card p-5 border border-ios-separatorLight/30 shadow-sm">
+                    <h3 class="text-lg font-bold text-ios-textLight dark:text-ios-textDark flex items-center gap-2 mb-2">
+                        <i data-lucide="rocket" class="text-ios-purple"></i> Mission
+                    </h3>
+                    <p class="text-[14px] text-ios-subLight dark:text-ios-subDark">Providing quality education, modern infrastructure, and an inclusive environment for all-round personality development.</p>
+                </div>
+                <div class="ios-card p-5 border border-ios-separatorLight/30 shadow-sm">
+                    <h3 class="text-lg font-bold text-ios-textLight dark:text-ios-textDark flex items-center gap-2 mb-2">
+                        <i data-lucide="shield-check" class="text-ios-green"></i> Discipline
+                    </h3>
+                    <p class="text-[14px] text-ios-subLight dark:text-ios-subDark">Maintaining a strict yet supportive environment that builds character and professional ethics in students.</p>
+                </div>
+                <div class="ios-card p-5 border border-ios-separatorLight/30 shadow-sm">
+                    <h3 class="text-lg font-bold text-ios-textLight dark:text-ios-textDark flex items-center gap-2 mb-2">
+                        <i data-lucide="users" class="text-ios-blueLight"></i> Inclusivity
+                    </h3>
+                    <p class="text-[14px] text-ios-subLight dark:text-ios-subDark">Ensuring education is accessible to all, promoting unity in diversity across the campus.</p>
+                </div>
+            </div>
         </div>
 
-        <!-- Navigation with href to separate files (as requested) -->
-        <ul class="menu-nav">
-          <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
-          <li><a href="pen.html"><i class="fas fa-pen"></i> PEN</a></li>
-          <li><a href="notes.html"><i class="fas fa-book"></i> NOTES</a></li>
-          <li><a href="notice.html"><i class="fas fa-bullhorn"></i> NOTICE</a></li>
-          <!-- SETTING is handled inside menu via theme toggle, but we also add a setting item for completeness (does nothing) -->
-          <li><a href="#" id="settingDummy"><i class="fas fa-sliders-h"></i> SETTING</a></li>
-        </ul>
-      </div>
-    </div>
+        <!-- ==================== VIEW: FACILITIES ==================== -->
+        <div id="view-facilities" class="spa-view" data-title="Campus Facilities">
+            <a href="#home" class="back-link"><i data-lucide="chevron-left" class="w-5 h-5"></i> Back</a>
 
-    <main class="container">
-      <!-- Principal's photo (given link) -->
-      <img src="https://i.postimg.cc/zvrPGFNz/1000009362-removebg-preview.png" alt="Principal Manoj Kumar Mathpati" class="principal-img" id="principalImg">
+            <div class="space-y-4">
+                <div class="ios-card p-5 border border-ios-separatorLight/30 shadow-sm flex items-start gap-4">
+                    <div class="w-12 h-12 bg-ios-blueLight/10 text-ios-blueLight rounded-xl flex items-center justify-center shrink-0">
+                        <i data-lucide="book-marked" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-ios-textLight dark:text-ios-textDark">Central Library</h3>
+                        <p class="text-[14px] text-ios-subLight dark:text-ios-subDark mt-1">Over 10,000+ reference books, daily newspapers, journals, and a quiet reading hall.</p>
+                    </div>
+                </div>
 
-      <!-- Greeting ~250 words -->
-      <h2>प्राचार्य का संदेश</h2>
-      <div class="greeting">
-        <p>शिक्षा केवल सूचना का संचय नहीं, बल्कि चरित्र का निर्माण है। बी.एन. झा कॉलेज, देवघर में आप सभी का हार्दिक स्वागत है। एक शिक्षक के रूप में मैंने हमेशा माना है कि हर विद्यार्थी में असीम संभावनाएँ होती हैं – हमारा प्रयास उन संभावनाओं को पहचान कर उन्हें निखारना है।</p>
-        <p>पिछले दो दशकों से यह संस्थान जेएसी राँची से संबद्ध होकर कक्षा 11वीं एवं 12वीं के विद्यार्थियों को आई.ए., आई.एस.सी. एवं आई.सी.ओ.एम. की शिक्षा प्रदान कर रहा है। हमारा लक्ष्य केवल परीक्षा में सफलता नहीं, बल्कि जीवन में सफलता के लिए तैयार करना है। यहाँ का वातावरण अनुशासन, अध्ययन और सृजनात्मकता को प्रोत्साहित करता है।</p>
-        <p>मैं अभिभावकों से आग्रह करूँगा कि वे शिक्षकों के साथ नियमित संवाद बनाए रखें। आपका सहयोग ही विद्यार्थियों के सर्वांगीण विकास की कुंजी है। आइए, मिलकर एक ऐसा शैक्षणिक समुदाय बनाएँ जहाँ हर छात्र को गर्व से कहने का अवसर मिले – "मैं बी.एन. झा कॉलेज का विद्यार्थी हूँ।"</p>
-        <p>— मनोज कुमार माथपति, प्राचार्य</p>
-      </div>
+                <div class="ios-card p-5 border border-ios-separatorLight/30 shadow-sm flex items-start gap-4">
+                    <div class="w-12 h-12 bg-ios-green/10 text-ios-green rounded-xl flex items-center justify-center shrink-0">
+                        <i data-lucide="microscope" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-ios-textLight dark:text-ios-textDark">Advanced Science Labs</h3>
+                        <p class="text-[14px] text-ios-subLight dark:text-ios-subDark mt-1">Fully equipped Physics, Chemistry, and Biology laboratories for hands-on practical experience safely.</p>
+                    </div>
+                </div>
 
-      <!-- College description ~500 words, mentioning teachers by subject only -->
-      <h2>कॉलेज का परिचय</h2>
-      <div class="description-text">
-        <p>बी.एन. झा कॉलेज, देवघर की स्थापना शिक्षा के उस दृष्टिकोण के साथ की गई थी जो गुणवत्ता, समावेशिता और समग्र विकास पर बल देता है। झारखंड के सांस्कृतिक नगरी देवघर में स्थित यह महाविद्यालय झारखंड शैक्षिक अनुसंधान एवं प्रशिक्षण परिषद् (जेएसी), राँची से मान्यता प्राप्त है। यहाँ कक्षा 11 और 12 में तीन संकाय – कला (आई.ए.), विज्ञान (आई.एस.सी.) और वाणिज्य (आई.सी.ओ.एम.) – की पढ़ाई होती है।</p>
-        <p>शैक्षणिक स्टाफ की बात करें तो हमारे यहाँ विषय-विशेषज्ञ शिक्षकों की टीम है। जीव विज्ञान के शिक्षक (bio teacher) छात्रों को वनस्पति विज्ञान, प्राणी विज्ञान और आधुनिक जैव-प्रौद्योगिकी की गहन समझ देते हैं। संस्कृत के शिक्षक (sanskrit teacher) प्राचीन भाषा और साहित्य को सरल एवं रोचक ढंग से प्रस्तुत करते हैं। भौतिक विज्ञान के शिक्षक प्रायोगिक ज्ञान पर विशेष बल देते हैं, तो रसायन शास्त्र के शिक्षक सिद्धांत और प्रयोग के बीच सेतु का कार्य करते हैं।</p>
-        <p>गणित के शिक्षक (mathematics teacher) जटिल सूत्रों को भी सहज बना देते हैं। अंग्रेज़ी के शिक्षक साहित्य और व्याकरण के माध्यम से भाषा कौशल विकसित करते हैं। हिंदी और उर्दू के शिक्षक छात्रों को उनकी सांस्कृतिक जड़ों से जोड़ते हैं। इतिहास, भूगोल एवं अर्थशास्त्र के शिक्षक सामाजिक विज्ञान की बारीकियों को जीवंत बनाते हैं। वाणिज्य संकाय में लेखाशास्त्र (accounts), व्यवसाय अध्ययन (business studies) और अर्थशास्त्र के शिक्षक छात्रों को कॉर्पोरेट दुनिया के लिए तैयार करते हैं।</p>
-        <p>पुस्तकालय में 5000 से अधिक पुस्तकें हैं, और विज्ञान प्रयोगशालाएँ आधुनिक उपकरणों से सुसज्जित हैं। खेल का मैदान और वार्षिक उत्सव छात्रों को प्रतिभा दिखाने का मंच देते हैं। हमारा उद्देश्य है कि कोई भी छात्र आर्थिक तंगी के कारण शिक्षा से वंचित न रहे – इसके लिए छात्रवृत्ति एवं फीस में रियायत की व्यवस्था है।</p>
-        <p>शिक्षक केवल पाठ्यक्रम तक सीमित नहीं रहते, बल्कि मार्गदर्शक की भूमिका निभाते हैं। नियमित अभिभावक-शिक्षक बैठकें होती हैं, जहाँ हर छात्र की प्रगति पर चर्चा होती है। बी.एन. झा कॉलेज सिर्फ एक संस्थान नहीं, बल्कि एक परिवार है – जहाँ हर शिक्षक, हर विद्यार्थी के सपनों को पंख देने के लिए प्रतिबद्ध है। यही कारण है कि देवघर एवं आसपास के क्षेत्रों के अभिभावकों का विश्वास इस कॉलेज पर दृढ़ है।</p>
-      </div>
+                <div class="ios-card p-5 border border-ios-separatorLight/30 shadow-sm flex items-start gap-4">
+                    <div class="w-12 h-12 bg-ios-purple/10 text-ios-purple rounded-xl flex items-center justify-center shrink-0">
+                        <i data-lucide="monitor-play" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-ios-textLight dark:text-ios-textDark">Computer & IT Lab</h3>
+                        <p class="text-[14px] text-ios-subLight dark:text-ios-subDark mt-1">High-speed internet, modern software, and 50+ systems to keep students updated with tech.</p>
+                    </div>
+                </div>
 
-      <!-- Social icons (Instagram & WhatsApp) -->
-      <div class="social-links">
-        <a href="https://instagram.com/anshurajhans" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
-        <a href="https://whatsapp.com/channel/0029VbBBNmJ2ER6puLp12l1n" target="_blank" class="social-icon"><i class="fab fa-whatsapp"></i></a>
-      </div>
+                <div class="ios-card p-5 border border-ios-separatorLight/30 shadow-sm flex items-start gap-4">
+                    <div class="w-12 h-12 bg-ios-orange/10 text-ios-orange rounded-xl flex items-center justify-center shrink-0">
+                        <i data-lucide="medal" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-ios-textLight dark:text-ios-textDark">Sports Ground</h3>
+                        <p class="text-[14px] text-ios-subLight dark:text-ios-subDark mt-1">Large playground with facilities for cricket, football, volleyball, and annual athletic meets.</p>
+                    </div>
+                </div>
+
+                <div class="ios-card p-5 border border-ios-separatorLight/30 shadow-sm flex items-start gap-4">
+                    <div class="w-12 h-12 bg-ios-red/10 text-ios-red rounded-xl flex items-center justify-center shrink-0">
+                        <i data-lucide="bus" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-ios-textLight dark:text-ios-textDark">Transport Facility</h3>
+                        <p class="text-[14px] text-ios-subLight dark:text-ios-subDark mt-1">Safe and secure college buses covering all major routes across Deoghar city.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== VIEW: GALLERY ==================== -->
+        <div id="view-gallery" class="spa-view" data-title="Photo Gallery">
+            <a href="#home" class="back-link"><i data-lucide="chevron-left" class="w-5 h-5"></i> Back</a>
+            
+            <div class="grid grid-cols-2 gap-3">
+                <div class="ios-card overflow-hidden border border-ios-separatorLight/30 shadow-sm relative group">
+                    <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=500&auto=format&fit=crop" class="w-full h-36 object-cover" alt="Campus">
+                    <div class="absolute bottom-0 w-full bg-black/60 text-white text-[11px] p-1 text-center">Campus Entrance</div>
+                </div>
+                <div class="ios-card overflow-hidden border border-ios-separatorLight/30 shadow-sm relative group">
+                    <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=500&auto=format&fit=crop" class="w-full h-36 object-cover" alt="Students">
+                    <div class="absolute bottom-0 w-full bg-black/60 text-white text-[11px] p-1 text-center">Convocation</div>
+                </div>
+                <div class="ios-card overflow-hidden border border-ios-separatorLight/30 shadow-sm relative group">
+                    <img src="https://images.unsplash.com/photo-1564069114553-7215e1ff1890?w=500&auto=format&fit=crop" class="w-full h-36 object-cover" alt="Library">
+                    <div class="absolute bottom-0 w-full bg-black/60 text-white text-[11px] p-1 text-center">Library Hall</div>
+                </div>
+                <div class="ios-card overflow-hidden border border-ios-separatorLight/30 shadow-sm relative group">
+                    <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=500&auto=format&fit=crop" class="w-full h-36 object-cover" alt="Computer Lab">
+                    <div class="absolute bottom-0 w-full bg-black/60 text-white text-[11px] p-1 text-center">IT Lab</div>
+                </div>
+                <div class="ios-card overflow-hidden border border-ios-separatorLight/30 shadow-sm col-span-2 relative group">
+                    <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?w=800&auto=format&fit=crop" class="w-full h-48 object-cover" alt="Event">
+                    <div class="absolute bottom-0 w-full bg-black/60 text-white text-[11px] p-2 text-center font-bold tracking-wide">Annual Sports Meet</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== VIEW: EVENTS ==================== -->
+        <div id="view-events" class="spa-view" data-title="Events & News">
+            <a href="#home" class="back-link"><i data-lucide="chevron-left" class="w-5 h-5"></i> Back</a>
+
+            <div class="space-y-4">
+                <div class="ios-card p-5 border border-ios-separatorLight/30 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-ios-red/10 text-ios-red px-2 py-1 rounded text-[11px] font-bold uppercase tracking-wide">Upcoming</span>
+                        <span class="text-[13px] text-ios-subLight font-medium"><i data-lucide="calendar" class="w-3.5 h-3.5 inline mr-1"></i> May 15, 2026</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-ios-textLight dark:text-ios-textDark mb-1">Annual Science Exhibition</h3>
+                    <p class="text-[14px] text-ios-subLight dark:text-ios-subDark">Students from I.Sc will be presenting innovative projects and models. Chief Guest: District Education Officer.</p>
+                </div>
+
+                <div class="ios-card p-5 border border-ios-separatorLight/30 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-ios-blueLight/10 text-ios-blueLight px-2 py-1 rounded text-[11px] font-bold uppercase tracking-wide">News</span>
+                        <span class="text-[13px] text-ios-subLight font-medium"><i data-lucide="calendar" class="w-3.5 h-3.5 inline mr-1"></i> Apr 10, 2026</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-ios-textLight dark:text-ios-textDark mb-1">Admissions Open 2026-28</h3>
+                    <p class="text-[14px] text-ios-subLight dark:text-ios-subDark">Online and offline admission process has begun for all streams. Last date to apply is June 30th.</p>
+                </div>
+                
+                <div class="ios-card p-5 border border-ios-separatorLight/30 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-ios-green/10 text-ios-green px-2 py-1 rounded text-[11px] font-bold uppercase tracking-wide">Past Event</span>
+                        <span class="text-[13px] text-ios-subLight font-medium"><i data-lucide="calendar" class="w-3.5 h-3.5 inline mr-1"></i> Feb 26, 2026</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-ios-textLight dark:text-ios-textDark mb-1">Farewell Ceremony 2026</h3>
+                    <p class="text-[14px] text-ios-subLight dark:text-ios-subDark">A grand farewell was organized for the passing out batch of 2024-2026. Wishing them a bright future.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== VIEW: CONTACT ==================== -->
+        <div id="view-contact" class="spa-view" data-title="Contact Us">
+            <a href="#home" class="back-link"><i data-lucide="chevron-left" class="w-5 h-5"></i> Back</a>
+
+            <div class="ios-card overflow-hidden mb-6 border border-ios-separatorLight/30 shadow-sm">
+                <div class="w-full h-48 bg-ios-separatorLight/20 relative flex items-center justify-center">
+                    <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=800&auto=format&fit=crop" alt="Map Location" class="w-full h-full object-cover opacity-50">
+                    <div class="absolute flex flex-col items-center">
+                        <i data-lucide="map-pin" class="w-10 h-10 text-ios-red mb-2 drop-shadow-md"></i>
+                        <span class="font-bold text-black dark:text-white bg-white/70 dark:bg-black/70 px-3 py-1 rounded-full text-sm backdrop-blur-sm">Deoghar, Jharkhand</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ios-card p-6 border border-ios-separatorLight/30 shadow-sm mb-6 space-y-5">
+                <div class="flex items-start gap-4">
+                    <i data-lucide="map-pin" class="w-6 h-6 text-ios-blueLight mt-0.5 shrink-0"></i>
+                    <div>
+                        <h4 class="font-bold text-ios-textLight dark:text-ios-textDark">Address</h4>
+                        <p class="text-[15px] text-ios-subLight mt-1">BN Jha Memorial Inter College<br>B.Deoghar, Jharkhand - 814112</p>
+                    </div>
+                </div>
+                <div class="w-full h-[1px] bg-ios-separatorLight/30 dark:bg-ios-separatorDark/30"></div>
+                
+                <div class="flex items-start gap-4">
+                    <i data-lucide="phone" class="w-6 h-6 text-ios-green mt-0.5 shrink-0"></i>
+                    <div>
+                        <h4 class="font-bold text-ios-textLight dark:text-ios-textDark">Phone</h4>
+                        <p class="text-[15px] text-ios-subLight mt-1">+91 98765 43210</p>
+                    </div>
+                </div>
+                <div class="w-full h-[1px] bg-ios-separatorLight/30 dark:bg-ios-separatorDark/30"></div>
+
+                <div class="flex items-start gap-4">
+                    <i data-lucide="mail" class="w-6 h-6 text-ios-orange mt-0.5 shrink-0"></i>
+                    <div>
+                        <h4 class="font-bold text-ios-textLight dark:text-ios-textDark">Email</h4>
+                        <p class="text-[15px] text-ios-subLight mt-1">info@bnjhacollege.edu.in</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-[14px] uppercase font-bold text-ios-subLight mb-3 ml-2 tracking-widest">Send a Message</h3>
+            <form class="space-y-4" onsubmit="event.preventDefault(); iziToast.success({title: 'Sent', message: 'Message delivered to administration.', position: 'topCenter'}); this.reset();">
+                <input type="text" class="ios-input shadow-sm" placeholder="Your Name" required>
+                <input type="email" class="ios-input shadow-sm" placeholder="Your Email" required>
+                <textarea class="ios-textarea shadow-sm h-32 resize-none" placeholder="Write your message here..." required></textarea>
+                <button type="submit" class="btn-3d w-full py-3"><i data-lucide="send" class="w-5 h-5"></i> Submit Query</button>
+            </form>
+        </div>
+
+        <!-- ==================== VIEW: SCIENCE ==================== -->
+        <div id="view-science" class="spa-view" data-title="Science Faculty">
+            <a href="#home" class="back-link"><i data-lucide="chevron-left" class="w-5 h-5"></i> Back</a>
+
+            <div class="ios-card p-6 border border-ios-separatorLight/30 shadow-sm mb-6">
+                <h2 class="text-2xl font-bold text-ios-textLight dark:text-ios-textDark flex items-center gap-2 mb-4 border-b border-ios-separatorLight/50 pb-3">
+                    <i data-lucide="book-open" class="text-ios-blueLight"></i> I.Sc Syllabus
+                </h2>
+                <ul class="space-y-3 text-[15px] text-ios-subLight dark:text-ios-subDark">
+                    <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-ios-green"></i> Physics (Thermodynamics, Mechanics, Optics)</li>
+                    <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-ios-green"></i> Chemistry (Organic, Inorganic, Physical)</li>
+                    <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-ios-green"></i> Biology (Botany, Zoology, Genetics)</li>
+                    <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-ios-green"></i> Mathematics (Calculus, Algebra, Vectors)</li>
+                </ul>
+            </div>
+
+            <div class="ios-card p-6 border border-ios-separatorLight/30 shadow-sm mb-6 bg-ios-blueLight/5">
+                <h3 class="text-[14px] uppercase font-bold text-ios-blueLight mb-2 tracking-widest">Career Opportunities</h3>
+                <p class="text-[14px] text-ios-textLight dark:text-ios-textDark font-medium leading-relaxed">Engineering (JEE), Medical (NEET), BSc, Research Scientist, Data Analyst, NDA.</p>
+            </div>
+
+            <div class="ios-card overflow-hidden border border-ios-separatorLight/30 shadow-sm">
+                <h2 class="text-lg font-bold text-ios-textLight dark:text-ios-textDark p-5 pb-2">Faculty Members</h2>
+                
+                <div class="ios-list-item flex items-center p-4 block">
+                    <div class="bg-ios-separatorLight/30 w-10 h-10 rounded-full flex items-center justify-center text-ios-textLight shrink-0">
+                        <i data-lucide="user" class="w-5 h-5"></i>
+                    </div>
+                    <div class="list-content flex-1 ml-4 py-3 border-b border-ios-separatorLight/50">
+                        <span class="block text-[16px] font-semibold text-ios-textLight dark:text-ios-textDark">XYZ Sir</span>
+                        <span class="block text-[13px] text-ios-subLight">HOD, Physics</span>
+                    </div>
+                </div>
+
+                <div class="ios-list-item flex items-center p-4 block">
+                    <div class="bg-ios-separatorLight/30 w-10 h-10 rounded-full flex items-center justify-center text-ios-textLight shrink-0">
+                        <i data-lucide="user" class="w-5 h-5"></i>
+                    </div>
+                    <div class="list-content flex-1 ml-4 py-3">
+                        <span class="block text-[16px] font-semibold text-ios-textLight dark:text-ios-textDark">XYZ Mam</span>
+                        <span class="block text-[13px] text-ios-subLight">Senior Lecturer, Chemistry</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== VIEW: ARTS ==================== -->
+        <div id="view-arts" class="spa-view" data-title="Arts Faculty">
+            <a href="#home" class="back-link"><i data-lucide="chevron-left" class="w-5 h-5"></i> Back</a>
+
+            <div class="ios-card p-6 border border-ios-separatorLight/30 shadow-sm mb-6">
+                <h2 class="text-2xl font-bold text-ios-textLight dark:text-ios-textDark flex items-center gap-2 mb-4 border-b border-ios-separatorLight/50 pb-3">
+                    <i data-lucide="book-open" class="text-ios-purple"></i> I.A Syllabus
+                </h2>
+                <ul class="space-y-3 text-[15px] text-ios-subLight dark:text-ios-subDark">
+                    <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-ios-green"></i> History (Ancient, Medieval & Modern India)</li>
+                    <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-ios-green"></i> Political Science (Constitution, Global Pol.)</li>
+                    <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-ios-green"></i> Geography (Physical, Human & Economic)</li>
+                    <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-ios-green"></i> Sociology (Social Institutions, Changes)</li>
+                </ul>
+            </div>
+
+            <div class="ios-card p-6 border border-ios-separatorLight/30 shadow-sm mb-6 bg-ios-purple/5">
+                <h3 class="text-[14px] uppercase font-bold text-ios-purple mb-2 tracking-widest">Career Opportunities</h3>
+                <p class="text-[14px] text-ios-textLight dark:text-ios-textDark font-medium leading-relaxed">Civil Services (UPSC/JPSC), Law (CLAT), Journalism, Teaching, BA, Fine Arts.</p>
+            </div>
+
+            <div class="ios-card overflow-hidden border border-ios-separatorLight/30 shadow-sm">
+                <h2 class="text-lg font-bold text-ios-textLight dark:text-ios-textDark p-5 pb-2">Faculty Members</h2>
+                
+                <div class="ios-list-item flex items-center p-4 block">
+                    <div class="bg-ios-separatorLight/30 w-10 h-10 rounded-full flex items-center justify-center text-ios-textLight shrink-0">
+                        <i data-lucide="user" class="w-5 h-5"></i>
+                    </div>
+                    <div class="list-content flex-1 ml-4 py-3 border-b border-ios-separatorLight/50">
+                        <span class="block text-[16px] font-semibold text-ios-textLight dark:text-ios-textDark">XYZ Mam</span>
+                        <span class="block text-[13px] text-ios-subLight">HOD, History</span>
+                    </div>
+                </div>
+
+                <div class="ios-list-item flex items-center p-4 block">
+                    <div class="bg-ios-separatorLight/30 w-10 h-10 rounded-full flex items-center justify-center text-ios-textLight shrink-0">
+                        <i data-lucide="user" class="w-5 h-5"></i>
+                    </div>
+                    <div class="list-content flex-1 ml-4 py-3">
+                        <span class="block text-[16px] font-semibold text-ios-textLight dark:text-ios-textDark">XYZ Sir</span>
+                        <span class="block text-[13px] text-ios-subLight">Professor, Political Science</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== VIEW: COMMERCE ==================== -->
+        <div id="view-commerce" class="spa-view" data-title="Commerce Faculty">
+            <a href="#home" class="back-link"><i data-lucide="chevron-left" class="w-5 h-5"></i> Back</a>
+
+            <div class="ios-card p-6 border border-ios-separatorLight/30 shadow-sm mb-6">
+                <h2 class="text-2xl font-bold text-ios-textLight dark:text-ios-textDark flex items-center gap-2 mb-4 border-b border-ios-separatorLight/50 pb-3">
+                    <i data-lucide="book-open" class="text-ios-orange"></i> I.Com Syllabus
+                </h2>
+                <ul class="space-y-3 text-[15px] text-ios-subLight dark:text-ios-subDark">
+                    <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-ios-green"></i> Accountancy (Financial, Corporate, Costing)</li>
+                    <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-ios-green"></i> Business Studies (Management, Marketing)</li>
+                    <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-ios-green"></i> Economics (Micro & Macro)</li>
+                    <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-ios-green"></i> Entrepreneurship & Comp. Science</li>
+                </ul>
+            </div>
+
+            <div class="ios-card p-6 border border-ios-separatorLight/30 shadow-sm mb-6 bg-ios-orange/5">
+                <h3 class="text-[14px] uppercase font-bold text-ios-orange mb-2 tracking-widest">Career Opportunities</h3>
+                <p class="text-[14px] text-ios-textLight dark:text-ios-textDark font-medium leading-relaxed">Chartered Accountant (CA), Company Secretary (CS), Banking, BBA/MBA, B.Com, Financial Analyst.</p>
+            </div>
+
+            <div class="ios-card overflow-hidden border border-ios-separatorLight/30 shadow-sm">
+                <h2 class="text-lg font-bold text-ios-textLight dark:text-ios-textDark p-5 pb-2">Faculty Members</h2>
+                
+                <div class="ios-list-item flex items-center p-4 block">
+                    <div class="bg-ios-separatorLight/30 w-10 h-10 rounded-full flex items-center justify-center text-ios-textLight shrink-0">
+                        <i data-lucide="user" class="w-5 h-5"></i>
+                    </div>
+                    <div class="list-content flex-1 ml-4 py-3 border-b border-ios-separatorLight/50">
+                        <span class="block text-[16px] font-semibold text-ios-textLight dark:text-ios-textDark">XYZ Sir</span>
+                        <span class="block text-[13px] text-ios-subLight">HOD, Accounts</span>
+                    </div>
+                </div>
+
+                <div class="ios-list-item flex items-center p-4 block">
+                    <div class="bg-ios-separatorLight/30 w-10 h-10 rounded-full flex items-center justify-center text-ios-textLight shrink-0">
+                        <i data-lucide="user" class="w-5 h-5"></i>
+                    </div>
+                    <div class="list-content flex-1 ml-4 py-3">
+                        <span class="block text-[16px] font-semibold text-ios-textLight dark:text-ios-textDark">XYZ Mam</span>
+                        <span class="block text-[13px] text-ios-subLight">Lecturer, Business Studies</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== VIEW: DEVELOPER ==================== -->
+        <div id="view-developer" class="spa-view" data-title="Developer Info">
+            <a href="#home" class="back-link"><i data-lucide="chevron-left" class="w-5 h-5"></i> Back</a>
+
+            <div class="flex flex-col items-center mt-4 mb-8 text-center">
+                <div class="w-28 h-28 rounded-full bg-gradient-to-tr from-ios-blueLight via-ios-purple to-ios-orange shadow-xl flex items-center justify-center text-white mb-4 relative p-1">
+                    <div class="w-full h-full bg-ios-bgLight dark:bg-ios-bgDark rounded-full flex items-center justify-center overflow-hidden">
+                        <img src="https://ui-avatars.com/api/?name=Anshu+Rajhans&background=007AFF&color=fff&size=150&font-size=0.4" alt="Anshu Rajhans" class="w-full h-full object-cover relative z-10 rounded-full">
+                    </div>
+                </div>
+                <h1 class="text-3xl font-bold tracking-tight text-ios-textLight dark:text-ios-textDark">Anshu Rajhans</h1>
+                <p class="text-ios-subLight dark:text-ios-subDark font-medium mt-1">System Architect & Full-Stack Developer</p>
+                <p class="text-[13px] text-ios-subLight dark:text-ios-subDark mt-3 max-w-[280px]">Passionate about building highly responsive, scalable, and beautifully designed web applications.</p>
+            </div>
+
+            <h2 class="text-[13px] uppercase font-semibold text-ios-subLight dark:text-ios-subDark ml-4 mb-2 tracking-wide">Connect With Me</h2>
+            <div class="ios-card overflow-hidden mb-8 shadow-sm border border-ios-separatorLight/30">
+                <a href="#" class="ios-list-item flex items-center pl-4 block active:bg-ios-separatorLight/20 transition-colors">
+                    <div class="bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-500 w-9 h-9 rounded-lg flex items-center justify-center shrink-0 text-white">
+                        <i data-lucide="instagram" class="w-5 h-5"></i>
+                    </div>
+                    <div class="list-content flex-1 ml-4 py-4 pr-4 flex justify-between items-center">
+                        <div>
+                            <span class="block text-[17px] font-medium text-ios-textLight dark:text-ios-textDark">Instagram</span>
+                            <span class="block text-[13px] text-ios-subLight">@anshurajhans</span>
+                        </div>
+                        <i data-lucide="external-link" class="w-5 h-5 text-ios-separatorLight"></i>
+                    </div>
+                </a>
+
+                <a href="#" class="ios-list-item flex items-center pl-4 block active:bg-ios-separatorLight/20 transition-colors">
+                    <div class="bg-[#333] dark:bg-gray-700 w-9 h-9 rounded-lg flex items-center justify-center shrink-0 text-white">
+                        <i data-lucide="github" class="w-5 h-5"></i>
+                    </div>
+                    <div class="list-content flex-1 ml-4 py-4 pr-4 flex justify-between items-center">
+                        <div>
+                            <span class="block text-[17px] font-medium text-ios-textLight dark:text-ios-textDark">GitHub</span>
+                            <span class="block text-[13px] text-ios-subLight">View Projects</span>
+                        </div>
+                        <i data-lucide="external-link" class="w-5 h-5 text-ios-separatorLight"></i>
+                    </div>
+                </a>
+            </div>
+
+            <h2 class="text-[13px] uppercase font-semibold text-ios-subLight dark:text-ios-subDark ml-4 mb-2 tracking-wide">Tech Stack Used Here</h2>
+            <div class="ios-card p-5 border border-ios-separatorLight/30 shadow-sm flex flex-wrap gap-3 justify-center">
+                <span class="bg-ios-bgLight dark:bg-[#121212] px-3 py-1.5 rounded-md text-[13px] font-semibold text-ios-textLight dark:text-ios-textDark border border-ios-separatorLight/50">HTML5 / JS</span>
+                <span class="bg-ios-bgLight dark:bg-[#121212] px-3 py-1.5 rounded-md text-[13px] font-semibold text-[#38bdf8] border border-ios-separatorLight/50">Tailwind CSS</span>
+                <span class="bg-ios-bgLight dark:bg-[#121212] px-3 py-1.5 rounded-md text-[13px] font-semibold text-[#8b5cf6] border border-ios-separatorLight/50">SPA Routing</span>
+                <span class="bg-ios-bgLight dark:bg-[#121212] px-3 py-1.5 rounded-md text-[13px] font-semibold text-[#10b981] border border-ios-separatorLight/50">GSAP Animations</span>
+                <span class="bg-ios-bgLight dark:bg-[#121212] px-3 py-1.5 rounded-md text-[13px] font-semibold text-[#f59e0b] border border-ios-separatorLight/50">SweetAlert2</span>
+            </div>
+        </div>
+
+        <!-- ==================== VIEW: APPLY (ADMISSION) ==================== -->
+        <div id="view-apply" class="spa-view" data-title="Admission Form">
+            <a href="#home" class="back-link"><i data-lucide="chevron-left" class="w-5 h-5"></i> Cancel</a>
+            
+            <div class="flex flex-col items-center mt-2 mb-8 text-center">
+                <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-ios-blueLight to-ios-purple shadow-xl flex items-center justify-center text-white mb-4">
+                    <i data-lucide="clipboard-check" class="w-10 h-10"></i>
+                </div>
+                <h1 class="text-3xl font-bold tracking-tight text-ios-textLight dark:text-ios-textDark">Apply Now</h1>
+                <p class="text-ios-subLight dark:text-ios-subDark text-[14px] mt-2 max-w-sm mx-auto">Fill the form below to initiate your admission process.</p>
+            </div>
+
+            <form id="admissionForm" class="space-y-5">
+                <div>
+                    <label class="block text-[13px] uppercase font-bold text-ios-subLight dark:text-ios-subDark ml-2 mb-1.5 tracking-wide">Full Name</label>
+                    <div class="relative">
+                        <i data-lucide="user" class="absolute left-4 top-[18px] text-ios-subLight dark:text-ios-subDark w-5 h-5"></i>
+                        <input type="text" class="ios-input pl-12 shadow-sm" placeholder="e.g. Rahul Kumar" required />
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[13px] uppercase font-bold text-ios-subLight dark:text-ios-subDark ml-2 mb-1.5 tracking-wide">Mobile Number</label>
+                    <div class="relative">
+                        <i data-lucide="phone" class="absolute left-4 top-[18px] text-ios-subLight dark:text-ios-subDark w-5 h-5"></i>
+                        <input type="tel" class="ios-input pl-12 shadow-sm" placeholder="e.g. 9876543210" required />
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[13px] uppercase font-bold text-ios-subLight dark:text-ios-subDark ml-2 mb-1.5 tracking-wide">Select Stream</label>
+                    <div class="relative">
+                        <i data-lucide="book-open" class="absolute left-4 top-[18px] text-ios-subLight dark:text-ios-subDark w-5 h-5 z-10"></i>
+                        <select class="ios-select pl-12 shadow-sm relative z-0" required>
+                            <option value="" disabled selected>Choose Program...</option>
+                            <option value="science">Science (I.Sc)</option>
+                            <option value="arts">Arts (I.A)</option>
+                            <option value="commerce">Commerce (I.Com)</option>
+                        </select>
+                        <i data-lucide="chevron-down" class="absolute right-4 top-[18px] text-ios-subLight dark:text-ios-subDark w-5 h-5 z-10 pointer-events-none"></i>
+                    </div>
+                </div>
+
+                <div class="pt-4">
+                    <button type="submit" class="btn-3d btn-3d-submit">
+                        <i data-lucide="send" class="w-5 h-5"></i> Submit Application
+                    </button>
+                </div>
+            </form>
+        </div>
+
     </main>
 
-    <footer>
-      <div class="container">
-        BN Jha College, Deoghar — affiliated to JAC Ranchi. 🎒
-      </div>
-    </footer>
-  </div>
+    <!-- Scripts -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            lucide.createIcons();
+            const html = document.documentElement;
 
-  <script>
-    (function() {
-      // ---------- PWA manifest (inline blob) ----------
-      const manifest = {
-        name: "BN Jha College Deoghar",
-        short_name: "BN Jha College",
-        description: "College app for class 11 & 12, ISC, ICON, affiliated to JAC Ranchi",
-        start_url: ".",
-        display: "standalone",
-        background_color: "#ffffff",
-        theme_color: "#0071e3",
-        icons: [
-          {
-            src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' fill='white'/%3E%3Ctext x='96' y='140' font-size='120' text-anchor='middle' fill='%23333'%3E🎓%3C/text%3E%3C/svg%3E",
-            sizes: "192x192",
-            type: "image/svg+xml"
-          }
-        ]
-      };
-      const manifestBlob = new Blob([JSON.stringify(manifest, null, 2)], { type: "application/json" });
-      const manifestUrl = URL.createObjectURL(manifestBlob);
-      document.getElementById("dynamic-manifest").setAttribute("href", manifestUrl);
+            // --- 1. SPA Routing Engine ---
+            const routes = {
+                '': 'view-home', '#': 'view-home', '#home': 'view-home',
+                '#about': 'view-about', '#facilities': 'view-facilities',
+                '#gallery': 'view-gallery', '#events': 'view-events', '#contact': 'view-contact',
+                '#science': 'view-science', '#arts': 'view-arts', '#commerce': 'view-commerce',
+                '#developer': 'view-developer', '#apply': 'view-apply'
+            };
 
-      // Minimal service worker (PWA readiness)
-      if ('serviceWorker' in navigator) {
-        const swCode = `self.addEventListener('install', e => self.skipWaiting()); self.addEventListener('activate', e => self.clients.claim());`;
-        const swBlob = new Blob([swCode], { type: 'application/javascript' });
-        const swUrl = URL.createObjectURL(swBlob);
-        navigator.serviceWorker.register(swUrl).catch(() => {});
-      }
+            const navTitle = document.getElementById('nav-title');
+            let currentActiveId = 'view-home';
 
-      // ---------- Splash screen ----------
-      const splash = document.getElementById('splash');
-      const app = document.getElementById('app');
+            function handleRouting() {
+                const hash = window.location.hash || '#home';
+                const targetId = routes[hash] || 'view-home';
+                if (targetId === currentActiveId) return;
 
-      function hideSplash() {
-        splash.style.opacity = '0';
-        setTimeout(() => {
-          splash.style.display = 'none';
-          app.style.display = 'flex';
-        }, 400);
-      }
+                const currentEl = document.getElementById(currentActiveId);
+                const targetEl = document.getElementById(targetId);
+                
+                gsap.to(currentEl, {
+                    opacity: 0, y: -10, duration: 0.2, 
+                    onComplete: () => {
+                        currentEl.classList.remove('active');
+                        targetEl.classList.add('active');
+                        window.scrollTo(0, 0);
+                        
+                        gsap.to(navTitle, {opacity: 0, duration: 0.1, onComplete: () => {
+                            if(hash === '#home' || hash === '') {
+                                navTitle.style.fontFamily = "'Kavoon', serif";
+                                navTitle.innerText = "BN Jha College";
+                            } else {
+                                navTitle.style.fontFamily = "'Inter', sans-serif";
+                                navTitle.innerText = targetEl.getAttribute('data-title');
+                            }
+                            gsap.to(navTitle, {opacity: 1, duration: 0.2});
+                        }});
 
-      // Ensure splash visible at least 1.5s, but max after load
-      window.addEventListener('load', () => {
-        setTimeout(hideSplash, 1500); // 1.5s for splash + dots dancing
-      });
+                        gsap.fromTo(targetEl, 
+                            { opacity: 0, y: 15 }, 
+                            { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }
+                        );
+                        currentActiveId = targetId;
+                    }
+                });
+            }
 
-      // ---------- Theme handling (sun/moon) ----------
-      const body = document.body;
-      const lightBtn = document.getElementById('themeLight');
-      const darkBtn = document.getElementById('themeDark');
+            window.addEventListener('hashchange', handleRouting);
+            if(window.location.hash && window.location.hash !== '#home') {
+                const initialTarget = routes[window.location.hash] || 'view-home';
+                document.getElementById('view-home').classList.remove('active');
+                document.getElementById(initialTarget).classList.add('active');
+                
+                navTitle.style.fontFamily = "'Inter', sans-serif";
+                navTitle.innerText = document.getElementById(initialTarget).getAttribute('data-title');
+                currentActiveId = initialTarget;
+            }
 
-      function updateThemeButtons() {
-        const isDark = body.classList.contains('dark-theme');
-        lightBtn.classList.toggle('active', !isDark);
-        darkBtn.classList.toggle('active', isDark);
-      }
+            // --- 2. Theme Toggle Logic ---
+            const themeBtn = document.getElementById('theme-toggle');
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                html.classList.add('dark');
+            } else { html.classList.remove('dark'); }
 
-      // Load saved theme
-      const savedTheme = localStorage.getItem('bnjha-theme');
-      if (savedTheme === 'dark') {
-        body.classList.add('dark-theme');
-      } else {
-        body.classList.remove('dark-theme');
-      }
-      updateThemeButtons();
+            themeBtn.addEventListener('click', () => {
+                html.classList.toggle('dark');
+                gsap.fromTo(themeBtn, {rotation: -45}, {rotation: 0, duration: 0.3});
+                localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light';
+                if(navigator.vibrate) navigator.vibrate(10);
+            });
 
-      lightBtn.addEventListener('click', () => {
-        body.classList.remove('dark-theme');
-        localStorage.setItem('bnjha-theme', 'light');
-        updateThemeButtons();
-        Swal.fire({
-          icon: 'success',
-          title: 'Light theme',
-          text: 'Soft & clear',
-          timer: 1200,
-          showConfirmButton: false,
-          background: '#ffffff',
-          color: '#1d1d1f'
+            // --- 3. Splash Animation ---
+            const tl = gsap.timeline();
+            document.body.style.overflow = "hidden";
+            tl.fromTo("#splash-b", { y: -100, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "bounce.out" })
+              .to("#splash-rest", { width: "auto", opacity: 1, duration: 0.5, ease: "power2.out" }, "-=0.2")
+              .to({}, { duration: 0.4 }) 
+              .to("#splash-screen", {
+                  opacity: 0, duration: 0.4,
+                  onComplete: () => {
+                      document.getElementById("splash-screen").style.display = "none";
+                      document.body.style.overflow = ""; 
+                  }
+              });
+            tl.to("#" + currentActiveId + " .ui-elem", { y: 0, opacity: 1, duration: 0.5, stagger: 0.1 }, "-=0.2");
+
+
+            // --- 4. Form Submission & Pay to Unlock Logic ---
+            const admissionForm = document.getElementById('admissionForm');
+            admissionForm.addEventListener('submit', function(e) {
+                e.preventDefault(); 
+                
+                if(navigator.vibrate) navigator.vibrate([15, 30, 15]);
+
+                Swal.fire({
+                    title: 'Registration Initiated',
+                    text: 'Pay to unlock website features and complete registration.',
+                    icon: 'info',
+                    confirmButtonText: 'Pay Now',
+                    confirmButtonColor: '#007AFF',
+                    background: html.classList.contains('dark') ? '#1C1C1E' : '#FFFFFF',
+                    color: html.classList.contains('dark') ? '#FFFFFF' : '#000000',
+                    customClass: {
+                        popup: 'rounded-2xl border border-gray-200 dark:border-gray-800',
+                        confirmButton: 'rounded-xl font-semibold px-6 py-3 w-full shadow-lg'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        iziToast.info({
+                            title: 'Redirecting',
+                            message: 'Initiating secure payment gateway...',
+                            position: 'topCenter',
+                            theme: html.classList.contains('dark') ? 'dark' : 'light'
+                        });
+                        // Add payment integration link here
+                    }
+                });
+            });
+
         });
-      });
-
-      darkBtn.addEventListener('click', () => {
-        body.classList.add('dark-theme');
-        localStorage.setItem('bnjha-theme', 'dark');
-        updateThemeButtons();
-        Swal.fire({
-          icon: 'success',
-          title: 'Dark theme',
-          text: 'Easy on eyes',
-          timer: 1200,
-          showConfirmButton: false,
-          background: '#1c1c1e',
-          color: '#f5f5f7'
-        });
-      });
-
-      // ---------- Hamburger menu ----------
-      const overlay = document.getElementById('menuOverlay');
-      const hamburger = document.getElementById('hamburgerBtn');
-      const closeMenuBtn = document.getElementById('closeMenuBtn');
-
-      function openMenu() { overlay.classList.add('active'); }
-      function closeMenu() { overlay.classList.remove('active'); }
-
-      hamburger.addEventListener('click', openMenu);
-      closeMenuBtn.addEventListener('click', closeMenu);
-      overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) closeMenu();
-      });
-
-      // Dummy setting link – just show a message
-      document.getElementById('settingDummy').addEventListener('click', (e) => {
-        e.preventDefault();
-        Swal.fire({
-          icon: 'info',
-          title: 'Settings',
-          text: 'Use sun/moon buttons above to switch theme.',
-          confirmButtonColor: '#0071e3'
-        });
-        closeMenu(); // optional
-      });
-
-      // ---------- SweetAlert on principal photo ----------
-      document.getElementById('principalImg').addEventListener('click', () => {
-        Swal.fire({
-          imageUrl: 'https://i.postimg.cc/zvrPGFNz/1000009362-removebg-preview.png',
-          imageWidth: 200,
-          imageHeight: 200,
-          title: 'Principal Manoj Kumar Mathpati',
-          text: 'शिक्षा का उद्देश्य चरित्र निर्माण है। आपका हार्दिक स्वागत है!',
-          confirmButtonColor: '#0071e3',
-          background: body.classList.contains('dark-theme') ? '#1c1c1e' : '#ffffff',
-          color: body.classList.contains('dark-theme') ? '#f5f5f7' : '#1d1d1f'
-        });
-      });
-
-    })();
-  </script>
+    </script>
 </body>
 </html>
